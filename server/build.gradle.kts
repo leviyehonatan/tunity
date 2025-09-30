@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.jdbc.postgres)
 
     testImplementation(libs.ktor.client.contentNegotiation)
+    testImplementation(libs.h2)
     testImplementation(libs.ktor.serverTestHost)
     testImplementation(libs.kotlin.testJunit)
 }

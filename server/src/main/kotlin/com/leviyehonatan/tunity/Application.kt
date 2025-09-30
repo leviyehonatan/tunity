@@ -32,12 +32,4 @@ fun Application.module() {
     install(ContentNegotiation) {
         json()
     }
-
-    configureDatabases()
-
-    routing {
-        get("/") {
-            call.respondText("Ktor: ${Greeting().greet()}")
-        }
-    }
 }
