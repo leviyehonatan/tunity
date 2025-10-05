@@ -1,5 +1,7 @@
 package com.leviyehonatan.tunity
 
+import com.leviyehonatan.tunity.plugins.authRoutes
+import com.leviyehonatan.tunity.plugins.authentication
 import com.leviyehonatan.tunity.plugins.configureDatabases
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -32,4 +34,7 @@ fun Application.module() {
     install(ContentNegotiation) {
         json()
     }
+    authentication()
+    authRoutes()
+
 }

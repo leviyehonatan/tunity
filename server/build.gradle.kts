@@ -32,6 +32,8 @@ dependencies {
     implementation(libs.exposed.migration.core)
     implementation(libs.exposed.migration.jdbc)
 
+    implementation(libs.bcrypt)
+
     implementation(libs.jdbc.postgres)
 
     testImplementation(libs.ktor.client.contentNegotiation)
