@@ -59,6 +59,17 @@ fun Application.authRoutes() {
                 databaseService.createTag(createTagRequest)
                 call.respond(HttpStatusCode.OK)
             }
+            post("/tags/{id}") {
+                val tagId = call.parameters["id"]?.toIntOrNull()
+                if (tagId == null) {
+                    call.respond(HttpStatusCode.BadRequest, "Invalid tag ID")
+                    return@post
+                }
+                val updateTagRequest = call.receive<CreateTagRequest>()
+                databaseService.updateTag(tagId, updateTagRequest)
+                call.respond(HttpStatusCode.OK)
+            }
+
 
             put("/tunes") {
                 val createTuneRequest = call.receive<CreateTuneRequest>()
