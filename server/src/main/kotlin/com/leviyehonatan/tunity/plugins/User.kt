@@ -3,6 +3,7 @@ package com.leviyehonatan.tunity.plugins
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.leviyehonatan.tunity.CreateTagRequest
+import com.leviyehonatan.tunity.CreateTuneRequest
 import com.leviyehonatan.tunity.LoginRequest
 import com.leviyehonatan.tunity.RegisterRequest
 import com.leviyehonatan.tunity.Translation
@@ -57,9 +58,21 @@ fun Application.authRoutes() {
                 val createTagRequest = call.receive<CreateTagRequest>()
                 databaseService.createTag(createTagRequest)
                 call.respond(HttpStatusCode.OK)
-
-
             }
+
+            put("/tunes") {
+                val createTuneRequest = call.receive<CreateTuneRequest>()
+                val principal = call.principal<JWTPrincipal>()
+                val username = principal!!.payload.getClaim("username").asString()
+                val user = databaseService.findUserByUsername(username) ?: run {
+                    call.respond(HttpStatusCode.NotFound, "User not found")
+                    return@put
+                }
+
+                databaseService.createTune(user, createTuneRequest)
+                call.respond(HttpStatusCode.Created)
+            }
+
             get("/hello") {
                 val principal = call.principal<JWTPrincipal>()
                 val username = principal!!.payload.getClaim("username").asString()

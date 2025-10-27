@@ -12,12 +12,18 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 
 
-
 class DatabaseService() {
 
     init {
         transaction {
-            SchemaUtils.create(UsersTable, TagsTable, TunesTable, TuneNameTranslationsTable, TagNameTranslationsTable, TuneTagsTable)
+            SchemaUtils.create(
+                UsersTable,
+                TagsTable,
+                TunesTable,
+                TuneNameTranslationsTable,
+                TagNameTranslationsTable,
+                TuneTagsTable
+            )
             addLogger(StdOutSqlLogger)
         }
     }
@@ -43,23 +49,23 @@ class DatabaseService() {
                 .singleOrNull() ?: false
         }
 
-    fun createTune(user: UserEntity, createTuneRequest: CreateTuneRequest): TuneEntity {
-
-        val tuneEntity = TuneEntity.new {
-            createdBy = user
-            tags = SizedCollection(createTuneRequest.tune.tagIds.map { TagEntity[it] })
-        }
-
-        val nameTranslations = SizedCollection(createTuneRequest.tune.nameTranslations.map {
-            TuneNameTranslationEntity.new {
-                language =  it.language
-                tune = tuneEntity
-                translation = it.translation
+    fun createTune(user: UserEntity, createTuneRequest: CreateTuneRequest): TuneEntity =
+        transaction {
+            val tuneEntity = TuneEntity.new {
+                createdBy = user
+                tags = SizedCollection(createTuneRequest.tune.tagIds.map { TagEntity[it] })
             }
-        })
 
-        return tuneEntity
-    }
+            val nameTranslations = SizedCollection(createTuneRequest.tune.nameTranslations.map {
+                TuneNameTranslationEntity.new {
+                    language = it.language
+                    tune = tuneEntity
+                    translation = it.translation
+                }
+            })
+
+            tuneEntity
+        }
 
 
     fun flattenedTags() =
@@ -69,13 +75,14 @@ class DatabaseService() {
                     it.id.value,
                     it.tagNameTranslations.map { Translation(it.language, it.translation) },
                     listOf()
-                )}
+                )
+            }
         }
 
     fun tags() =
-        transaction { TagEntity.all().toList()  }
+        transaction { TagEntity.all().toList() }
 
-    fun createTag(createTagRequest: CreateTagRequest) : TagEntity =
+    fun createTag(createTagRequest: CreateTagRequest): TagEntity =
         transaction {
             val newTag = TagEntity.new {
 
@@ -90,4 +97,10 @@ class DatabaseService() {
             }
             newTag
         }
+
+    fun findUserByUsername(username: String): UserEntity? =
+        transaction {
+            UserEntity.find { UsersTable.username eq username }.singleOrNull()
+        }
+
 }

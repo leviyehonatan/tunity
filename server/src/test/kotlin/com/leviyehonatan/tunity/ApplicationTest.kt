@@ -63,13 +63,17 @@ class ApplicationTest {
             header(HttpHeaders.Authorization, "Bearer ${token["token"]}")
         }
 
-        print("Tags: ${responseTags.body<List<TuneTag>>()}")
+        val tags = responseTags.body<List<TuneTag>>()
+        print("Tags: ${tags}")
+        assertEquals(1, tags.size)
         assertEquals(HttpStatusCode.OK, responseTags.status)
 
-        val response4 = client.post("/tunes") {
+        val response4 = client.put("/tunes") {
             contentType(ContentType.Application.Json)
             header(HttpHeaders.Authorization, "Bearer ${token["token"]}")
-            setBody(CreateTuneRequest(tune = Tune(listOf(Translation("en", "Tune1")), listOf(1))))
+            setBody(CreateTuneRequest(tune = Tune(listOf(Translation("en", "Tune1")), listOf(tags.first().id))))
         }
+        assertEquals(HttpStatusCode.Created, response4.status)
+
     }
 }
