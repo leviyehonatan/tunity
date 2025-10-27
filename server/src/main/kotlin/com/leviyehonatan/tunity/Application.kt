@@ -1,8 +1,8 @@
 package com.leviyehonatan.tunity
 
+import com.leviyehonatan.tunity.data.createDatabase
 import com.leviyehonatan.tunity.plugins.authRoutes
 import com.leviyehonatan.tunity.plugins.authentication
-import com.leviyehonatan.tunity.plugins.configureDatabases
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.serialization.kotlinx.json.json
@@ -11,8 +11,6 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 
 fun main() {
     embeddedServer(Netty, port = SERVER_PORT, host = "0.0.0.0", module = Application::module)
@@ -34,6 +32,7 @@ fun Application.module() {
     install(ContentNegotiation) {
         json()
     }
+    createDatabase()
     authentication()
     authRoutes()
 

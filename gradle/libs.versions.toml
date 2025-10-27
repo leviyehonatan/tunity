@@ -16,11 +16,12 @@ ktor = "3.3.0"
 logback = "1.5.18"
 kotlinx-rpc = "0.9.1"
 serialization = "1.9.0"
-composeHotReload = "1.0.0-beta09"
-exposed = "1.0.0-rc-1"
+composeHotReload = "1.0.0-rc02"
+exposed = "1.0.0-rc-2"
 postgresql="42.7.8"
 h2="2.4.240"
 bcrypt="0.4"
+slf4jNop = "2.0.17"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -76,6 +77,8 @@ kotlinx-rpc-krpc-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-
 #serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "serialization" }
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4jNop" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jNop" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

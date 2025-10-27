@@ -2,10 +2,13 @@ package com.leviyehonatan.tunity.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.leviyehonatan.tunity.CreateTagRequest
 import com.leviyehonatan.tunity.LoginRequest
 import com.leviyehonatan.tunity.RegisterRequest
-import com.leviyehonatan.tunity.data.UserService
-import com.leviyehonatan.tunity.data.createDatabase
+import com.leviyehonatan.tunity.Translation
+import com.leviyehonatan.tunity.TuneTag
+import com.leviyehonatan.tunity.data.DatabaseService
+import com.leviyehonatan.tunity.data.TagEntity
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.auth.authenticate
@@ -15,44 +18,14 @@ import io.ktor.server.config.property
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 fun Application.authRoutes() {
-    val db = createDatabase()
-    val userService = UserService(db)
+    val databaseService = DatabaseService()
     routing {
-//        // Create user
-//        post("/users") {
-//            val user = call.receive<NewUserRegistration>()
-//            val id = userService.create(ExposedUser(user.username, age = 0, password = user.password))
-//            call.respond(HttpStatusCode.Created, id)
-//        }
-//        // Read user
-//        get("/users/{id}") {
-//            val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
-//            val user = userService.read(id)
-//            if (user != null) {
-//                call.respond(HttpStatusCode.OK, user)
-//            } else {
-//                call.respond(HttpStatusCode.NotFound)
-//            }
-//        }
-//        // Update user
-//        put("/users/{id}") {
-//            val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
-//            val user = call.receive<ExposedUser>()
-//            userService.update(id, user)
-//            call.respond(HttpStatusCode.OK)
-//        }
-//        // Delete user
-//        delete("/users/{id}") {
-//            val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
-//            userService.delete(id)
-//            call.respond(HttpStatusCode.OK)
-//        }
-
         post("/register") {
             val body = call.receive<RegisterRequest>()
-            if (userService.register(body.username, body.password)) {
+            if (databaseService.register(body)) {
                     call.respond(HttpStatusCode.OK, "User registered successfully")
             } else {
                 call.respond(HttpStatusCode.Conflict, "User Exists")
@@ -61,7 +34,7 @@ fun Application.authRoutes() {
 
         post("/login") {
             val body = call.receive<LoginRequest>()
-            if (userService.login(body.username, body.password)) {
+            if (databaseService.login(body.username, body.password)) {
                     val jwtConfig: JwtConfig = property("jwt")
                 val jwtToken = JWT.create()
                     .withClaim("username",body.username )
@@ -74,6 +47,19 @@ fun Application.authRoutes() {
         }
 
         authenticate("auth-jwt") {
+            get("/tags") {
+                val flattenedTags = databaseService.flattenedTags()
+                call.respond(HttpStatusCode.OK, flattenedTags)
+            }
+
+
+            put("/tags") {
+                val createTagRequest = call.receive<CreateTagRequest>()
+                databaseService.createTag(createTagRequest)
+                call.respond(HttpStatusCode.OK)
+
+
+            }
             get("/hello") {
                 val principal = call.principal<JWTPrincipal>()
                 val username = principal!!.payload.getClaim("username").asString()
@@ -82,6 +68,5 @@ fun Application.authRoutes() {
                 call.respond(HttpStatusCode.OK, "Authenticated")
             }
         }
-
     }
 }
