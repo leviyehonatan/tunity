@@ -1,3 +1,31 @@
+import java.util.Properties
+
+// 1. Define the path and load properties lazily
+//    "lazy" means this code only runs once, the first time it's needed
+//    (either by "run" or "test").
+val localProperties by lazy {
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        Properties().apply {
+            localPropsFile.inputStream().use { load(it) }
+        }.entries.associate {
+            it.key.toString() to it.value.toString()
+        }
+    } else {
+        emptyMap()
+    }
+}
+
+// 2. Apply properties to the "run" task (of type JavaExec)
+tasks.named("run", JavaExec::class) {
+    systemProperties.putAll(localProperties)
+}
+
+// 3. Apply properties to ALL tasks of type "Test"
+tasks.withType<Test> {
+    systemProperties.putAll(localProperties)
+}
+
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
