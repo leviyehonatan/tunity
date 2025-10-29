@@ -1,17 +1,15 @@
 package com.leviyehonatan.tunity
 
-import com.leviyehonatan.tunity.plugins.authRoutes
-import com.leviyehonatan.tunity.plugins.authentication
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.json
-import io.ktor.server.config.ApplicationConfig
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.config.*
 import io.ktor.server.testing.*
-import org.jetbrains.exposed.v1.jdbc.Database
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 
 class ApplicationTest {
@@ -71,7 +69,15 @@ class ApplicationTest {
         val response4 = client.put("/tunes") {
             contentType(ContentType.Application.Json)
             header(HttpHeaders.Authorization, "Bearer ${token["token"]}")
-            setBody(CreateTuneRequest(tune = Tune(listOf(Translation("en", "Tune1")), listOf(tags.first().id))))
+            setBody(
+                CreateTuneRequest(
+                    tune = Tune(null,
+                        listOf(Translation("en", "Tune1")),
+                        listOf(tags.first().id),
+                        listOf("http://example.com")
+                    )
+                )
+            )
         }
         assertEquals(HttpStatusCode.Created, response4.status)
 

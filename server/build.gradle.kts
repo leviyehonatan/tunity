@@ -9,7 +9,7 @@ group = "com.leviyehonatan.tunity"
 version = "1.0.0"
 application {
     mainClass.set("com.leviyehonatan.tunity.ApplicationKt")
-    
+
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
@@ -24,6 +24,10 @@ dependencies {
     implementation(libs.ktor.serialization.json)
     implementation(libs.ktor.serverAuth)
     implementation(libs.ktor.serverAuthJwt)
+
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.contentNegotiation)
 
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)

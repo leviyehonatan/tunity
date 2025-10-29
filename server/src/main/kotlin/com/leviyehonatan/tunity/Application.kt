@@ -1,16 +1,12 @@
 package com.leviyehonatan.tunity
 
 import com.leviyehonatan.tunity.data.createDatabase
-import com.leviyehonatan.tunity.plugins.authRoutes
 import com.leviyehonatan.tunity.plugins.authentication
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.routing.*
 
 fun main() {
     embeddedServer(Netty, port = SERVER_PORT, host = "0.0.0.0", module = Application::module)
@@ -18,22 +14,13 @@ fun main() {
 }
 
 fun Application.module() {
-    install(CORS)  {
-        allowMethod(HttpMethod.Options)
-        allowMethod(HttpMethod.Put)
-        allowMethod(HttpMethod.Delete)
-        allowMethod(HttpMethod.Patch)
-        allowHeader(HttpHeaders.Authorization) // If you use Authorization headers
-        allowHeader(HttpHeaders.ContentType) // If you send Content-Type headers
-        allowCredentials = true // If you need to send cookies or authentication headers
-        anyHost() // This allows all origins, for development purposes.
-
-    }
+    createDatabase()
+    initDb()
+    authentication()
+    configureCors()
     install(ContentNegotiation) {
         json()
     }
-    createDatabase()
-    authentication()
-    authRoutes()
-
+    routes()
 }
+
