@@ -11,6 +11,6 @@ class LinkEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<LinkEntity>(LinksTable)
     val tunes by TuneEntity via TuneLinksTable
     var url by LinksTable.url
-    //svar linkType by LinksTable.linkType
+    //var linkType by LinksTable.linkType
     val youtubeMetadata by YoutubeMetadataEntity optionalBackReferencedOn YoutubeMetadataTable.link
 }

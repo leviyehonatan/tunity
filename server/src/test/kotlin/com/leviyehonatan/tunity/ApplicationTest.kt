@@ -89,5 +89,20 @@ class ApplicationTest {
         }
         assertEquals(HttpStatusCode.Created, response4.status)
 
+        println()
+        val createdTune = response4.body<Tune>()
+        println("Created tune: ${createdTune}")
+
+        val response5 = client.get("/tunes/my") {
+            header(HttpHeaders.Authorization, "Bearer ${token["token"]}")
+        }
+
+        assertEquals(HttpStatusCode.OK, response5.status)
+
+        val myTunes = response5.body<List<Tune>>()
+        assertEquals(1, myTunes.size)
+        println("my tunes: ${myTunes}")
+
+        println("the end!")
     }
 }

@@ -32,7 +32,7 @@ suspend fun createTune(user: UserEntity, createTuneRequest: CreateTuneRequest, a
         }
 
         tuneEntity.links = SizedCollection(linkEntities)
-        print("created tune entity ${tuneEntity}")
+        user.tunes = SizedCollection(user.tunes + tuneEntity)
         tuneEntity
     }
 }

@@ -13,6 +13,8 @@ class TuneEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<TuneEntity>(TunesTable)
 
     val tuneNameTranslations by TuneNameTranslationEntity referrersOn TuneNameTranslationsTable.tune
+
+    val users by UserEntity via UserTunesTable
     var tags by TagEntity via TuneTagsTable
     var links by LinkEntity via TuneLinksTable
     var createdBy by UserEntity referencedOn TunesTable.createdBy
