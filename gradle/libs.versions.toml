@@ -22,6 +22,8 @@ postgresql="42.7.8"
 h2="2.4.240"
 bcrypt="0.4"
 slf4jNop = "2.0.17"
+google-api-client="1.23.0"
+youtube-rev="v3-rev222-1.25.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -79,6 +81,12 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "serialization" }
 slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4jNop" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jNop" }
+
+#google
+google-api-client = { module="com.google.api-client:google-api-client", version.ref = "google-api-client" }
+google-oauth-client = { module="com.google.oauth-client:google-oauth-client-jetty", version.ref = "google-api-client" }
+google-api-services-youtube = { module="com.google.apis:google-api-services-youtube", version.ref="youtube-rev"}
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

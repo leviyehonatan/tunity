@@ -82,7 +82,7 @@ class ApplicationTest {
                         null,
                         listOf(Translation("en", "Tune1")),
                         listOf(tags.first().id),
-                        listOf("http://example.com")
+                        listOf("https://www.youtube.com/watch?v=P8gyCkDe-CY")
                     )
                 )
             )

@@ -19,7 +19,7 @@ fun Route.tuneRoutes() {
                 return@put
             }
 
-            val tune = createTune(user, createTuneRequest)
+            val tune = createTune(user, createTuneRequest, call.application)
             call.respond(HttpStatusCode.Created, tune.toTune())
         }
     }

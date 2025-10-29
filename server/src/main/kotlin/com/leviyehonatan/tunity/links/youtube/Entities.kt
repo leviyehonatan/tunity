@@ -1,12 +1,14 @@
 package com.leviyehonatan.tunity.links.youtube
 
+import com.leviyehonatan.tunity.links.LinkEntity
 import org.jetbrains.exposed.v1.core.dao.id.EntityID
 import org.jetbrains.exposed.v1.dao.Entity
 import org.jetbrains.exposed.v1.dao.EntityClass
 
-class YoutubeLinkEntity(id: EntityID<String>) : Entity<String>(id) {
-    companion object : EntityClass<String, YoutubeLinkEntity>(YoutubeLinksTable)
+class YoutubeMetadataEntity(id: EntityID<String>) : Entity<String>(id) {
+    companion object : EntityClass<String, YoutubeMetadataEntity>(YoutubeMetadataTable)
 
-    var title by YoutubeLinksTable.title
-    var thumbnailUrl by YoutubeLinksTable.thumbnailUrl
+    var link by LinkEntity referencedOn YoutubeMetadataTable.link
+    var title by YoutubeMetadataTable.title
+    var thumbnailUrl by YoutubeMetadataTable.thumbnailUrl
 }

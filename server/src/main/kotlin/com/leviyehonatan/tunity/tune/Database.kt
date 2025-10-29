@@ -6,13 +6,18 @@ import com.leviyehonatan.tunity.shared.Tune
 import com.leviyehonatan.tunity.auth.UserEntity
 import com.leviyehonatan.tunity.links.LinkEntity
 import com.leviyehonatan.tunity.links.LinksTable
+import com.leviyehonatan.tunity.links.getOrCreateLink
 import com.leviyehonatan.tunity.tags.TagEntity
+import io.ktor.server.application.Application
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.SizedCollection
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
-fun createTune(user: UserEntity, createTuneRequest: CreateTuneRequest): TuneEntity =
-    transaction {
+suspend fun createTune(user: UserEntity, createTuneRequest: CreateTuneRequest, application: Application): TuneEntity {
+    val linkEntities = createTuneRequest.tune.links.map { url ->
+        getOrCreateLink(url, application)
+    }
+    return transaction {
         val tuneEntity = TuneEntity.new {
             createdBy = user
             tags = SizedCollection(createTuneRequest.tune.tagIds.map { TagEntity[it] })
@@ -26,15 +31,11 @@ fun createTune(user: UserEntity, createTuneRequest: CreateTuneRequest): TuneEnti
             }
         }
 
-        val linkEntities = createTuneRequest.tune.links.map { url ->
-            LinkEntity.find { LinksTable.url eq url }.singleOrNull() ?: LinkEntity.new {
-                this.url = url
-            }
-        }
         tuneEntity.links = SizedCollection(linkEntities)
-
+        print("created tune entity ${tuneEntity}")
         tuneEntity
     }
+}
 
 
 fun TuneEntity.toTune() = transaction {
@@ -50,6 +51,6 @@ fun TuneEntity.toTune() = transaction {
             it.url
 
         },
-        tagIds = tags.map { it.id.value  }
+        tagIds = tags.map { it.id.value }
     )
 }

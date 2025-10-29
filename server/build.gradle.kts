@@ -36,6 +36,10 @@ dependencies {
     implementation(libs.exposed.migration.core)
     implementation(libs.exposed.migration.jdbc)
 
+//    implementation(libs.google.api.client)
+//    implementation(libs.google.oauth.client)
+//    implementation(libs.google.api.services.youtube)
+
     implementation(libs.bcrypt)
 
     implementation(libs.jdbc.postgres)

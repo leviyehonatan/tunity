@@ -32,8 +32,3 @@ data class YoutubeVideoThumbnail(
     val width: Int,
     val height: Int
 )
-
-@Serializable
-data class YoutubeRequest(
-    val url: String
-)
