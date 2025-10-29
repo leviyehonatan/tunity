@@ -1,8 +1,8 @@
 package com.leviyehonatan.tunity.tags
 
-import com.leviyehonatan.tunity.CreateTagRequest
-import com.leviyehonatan.tunity.Translation
-import com.leviyehonatan.tunity.TuneTag
+import com.leviyehonatan.tunity.shared.CreateTagRequest
+import com.leviyehonatan.tunity.shared.Translation
+import com.leviyehonatan.tunity.shared.TuneTag
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 fun createTag(createTagRequest: CreateTagRequest): TagEntity =

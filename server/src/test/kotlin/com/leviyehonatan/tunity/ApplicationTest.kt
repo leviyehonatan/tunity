@@ -1,5 +1,12 @@
 package com.leviyehonatan.tunity
 
+import com.leviyehonatan.tunity.shared.CreateTagRequest
+import com.leviyehonatan.tunity.shared.CreateTuneRequest
+import com.leviyehonatan.tunity.shared.LoginRequest
+import com.leviyehonatan.tunity.shared.RegisterRequest
+import com.leviyehonatan.tunity.shared.Translation
+import com.leviyehonatan.tunity.shared.Tune
+import com.leviyehonatan.tunity.shared.TuneTag
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
@@ -71,7 +78,8 @@ class ApplicationTest {
             header(HttpHeaders.Authorization, "Bearer ${token["token"]}")
             setBody(
                 CreateTuneRequest(
-                    tune = Tune(null,
+                    tune = Tune(
+                        null,
                         listOf(Translation("en", "Tune1")),
                         listOf(tags.first().id),
                         listOf("http://example.com")

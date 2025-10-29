@@ -1,8 +1,7 @@
 package com.leviyehonatan.tunity.tags
 
-import com.leviyehonatan.tunity.CreateTagRequest
+import com.leviyehonatan.tunity.shared.CreateTagRequest
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.Application
 import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond

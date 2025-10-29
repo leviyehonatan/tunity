@@ -1,8 +1,8 @@
 package com.leviyehonatan.tunity.tune
 
-import com.leviyehonatan.tunity.CreateTuneRequest
-import com.leviyehonatan.tunity.Translation
-import com.leviyehonatan.tunity.Tune
+import com.leviyehonatan.tunity.shared.CreateTuneRequest
+import com.leviyehonatan.tunity.shared.Translation
+import com.leviyehonatan.tunity.shared.Tune
 import com.leviyehonatan.tunity.auth.UserEntity
 import com.leviyehonatan.tunity.links.LinkEntity
 import com.leviyehonatan.tunity.links.LinksTable

@@ -1,4 +1,4 @@
-package com.leviyehonatan.tunity
+package com.leviyehonatan.tunity.shared
 
 import kotlinx.serialization.Serializable
 

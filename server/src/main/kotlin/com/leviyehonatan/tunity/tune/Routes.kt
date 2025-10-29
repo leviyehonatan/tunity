@@ -1,6 +1,6 @@
 package com.leviyehonatan.tunity.tune
 
-import com.leviyehonatan.tunity.CreateTuneRequest
+import com.leviyehonatan.tunity.shared.CreateTuneRequest
 import com.leviyehonatan.tunity.auth.getUser
 import io.ktor.http.*
 import io.ktor.server.auth.*

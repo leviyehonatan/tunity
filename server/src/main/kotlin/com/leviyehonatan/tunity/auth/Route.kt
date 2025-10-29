@@ -2,8 +2,8 @@ package com.leviyehonatan.tunity.auth
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.leviyehonatan.tunity.LoginRequest
-import com.leviyehonatan.tunity.RegisterRequest
+import com.leviyehonatan.tunity.shared.LoginRequest
+import com.leviyehonatan.tunity.shared.RegisterRequest
 import com.leviyehonatan.tunity.plugins.JwtConfig
 import io.ktor.http.*
 import io.ktor.server.config.*

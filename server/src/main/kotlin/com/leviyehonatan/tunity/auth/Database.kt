@@ -1,6 +1,6 @@
 package com.leviyehonatan.tunity.auth
 
-import com.leviyehonatan.tunity.RegisterRequest
+import com.leviyehonatan.tunity.shared.RegisterRequest
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
